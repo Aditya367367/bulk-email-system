@@ -2,7 +2,7 @@ import os
 import time
 import tempfile
 from celery import shared_task
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils import timezone
@@ -69,7 +69,7 @@ def process_email_job(self, job_id):
                     record.save()
                     
                     # Send email
-                    success = send_email_with_pdf(record, pdf_path)
+                    success, send_error = send_email_with_pdf(record, pdf_path)
                     
                     if success:
                         record.status = 'sent'
@@ -78,7 +78,7 @@ def process_email_job(self, job_id):
                         DailyEmailLimit.increment_today_count(1)
                     else:
                         record.status = 'failed'
-                        record.error_message = 'Failed to send email'
+                        record.error_message = send_error or 'Failed to send email'
                         email_job.failed_count += 1
                 else:
                     record.status = 'failed'
@@ -132,40 +132,39 @@ def process_email_job(self, job_id):
 def send_email_with_pdf(record, pdf_path):
     try:
         subject = 'License Certificate - Important Document'
-        
-        # Create email message
-        email = EmailMessage(
+
+        context = {
+            'name': record.name or '',
+            'ref_no': record.ref_no or '',
+            'company_name': record.company_name or '',
+            'address_line1': record.address_line1 or '',
+            'address_line2': record.address_line2 or '',
+        }
+        html_body = render_to_string('emails/license_email.html', context)
+        text_body = (
+            f"Dear {record.name},\n\n"
+            "Please find your personalized CINEFIL PDF attached to this email.\n\n"
+            f"Ref. No.: {record.ref_no or ''}\n"
+            f"Company: {record.company_name or ''}\n"
+            f"Address: {record.address_line1 or ''} {record.address_line2 or ''}\n\n"
+            "Best regards,\n"
+            "CINEFIL Team"
+        ).strip()
+
+        email = EmailMultiAlternatives(
             subject=subject,
-            body=f'''
-Dear {record.name},
-
-Please find attached your license certificate document.
-
-License Number: {record.license_number}
-Validity From: {record.validity_from}
-Premises Type: {record.premises_type}
-Category: {record.category}
-
-If you have any questions, please contact us.
-
-Best regards,
-License Department
-            '''.strip(),
+            body=text_body,
             from_email=settings.DEFAULT_FROM_EMAIL,
             to=[record.email]
         )
-        
-        # Attach PDF
+        email.attach_alternative(html_body, "text/html")
         email.attach_file(pdf_path)
-        
-        # Send email
         email.send()
-        
-        return True
-        
+
+        return True, None
     except Exception as e:
         print(f"Error sending email to {record.email}: {str(e)}")
-        return False
+        return False, str(e)
 
 
 @shared_task

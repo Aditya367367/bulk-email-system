@@ -12,10 +12,10 @@ const FileUpload = ({ onFileUpload, isLoading, dailyLimit }) => {
     onDrop,
     accept: {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': ['.xlsx'],
-      'application/vnd.ms-excel': ['.xls']
+      'application/vnd.ms-excel': ['.xls'],
     },
     multiple: false,
-    disabled: isLoading || dailyLimit.remaining_emails === 0
+    disabled: isLoading || dailyLimit.remaining_emails === 0,
   });
 
   return (
@@ -38,7 +38,7 @@ const FileUpload = ({ onFileUpload, isLoading, dailyLimit }) => {
         `}
       >
         <input {...getInputProps()} />
-        
+
         {isLoading ? (
           <div className="space-y-2">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
@@ -49,7 +49,7 @@ const FileUpload = ({ onFileUpload, isLoading, dailyLimit }) => {
             <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
-            
+
             {isDragActive ? (
               <p className="text-blue-600">Drop the Excel file here...</p>
             ) : (
@@ -65,8 +65,9 @@ const FileUpload = ({ onFileUpload, isLoading, dailyLimit }) => {
 
       {dailyLimit.remaining_emails === 0 && (
         <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <p className="text-red-800">
-            Daily email limit reached. Please try again tomorrow.
+          <p className="text-red-800 font-semibold">Uploading is blocked for today.</p>
+          <p className="mt-1 text-sm text-red-700">
+            {dailyLimit.warning_message || 'Daily email limit has been reached. Please do not try to upload more files today, because repeated sending attempts can affect sender reputation and may lead to email blacklisting.'}
           </p>
         </div>
       )}
@@ -74,14 +75,16 @@ const FileUpload = ({ onFileUpload, isLoading, dailyLimit }) => {
       <div className="bg-gray-50 rounded-lg p-4">
         <h3 className="font-semibold text-gray-700 mb-2">Required Excel Columns:</h3>
         <ul className="text-sm text-gray-600 space-y-1">
+          <li>ref_no</li>
           <li>name</li>
           <li>email</li>
-          <li>license_number</li>
-          <li>validity_from</li>
-          <li>premises_type</li>
-          <li>category</li>
-          <li>address</li>
+          <li>company_name</li>
+          <li>address_line1</li>
+          <li>address_line2</li>
         </ul>
+        <p className="text-xs text-gray-500 mt-3">
+          The uploaded file is used to generate the PDF, attach it to an HTML email, and send each email with a 7-second delay.
+        </p>
       </div>
     </div>
   );

@@ -129,5 +129,21 @@ DEFAULT_FROM_EMAIL = os.getenv('GMAIL_EMAIL')
 # Daily email limit
 DAILY_EMAIL_LIMIT = 100
 
+# Developer Information
+# DEVELOPER_INFO = {
+#     "name": "Aditya chauhan",
+#     "email": "Suryachauhan367367@gmail.com",
+#     "url": "https://github.com/Aditya367367",
+#     "linkedin": "https://www.linkedin.com/in/aditya-chauhan-1b1a95228/",
+#     "rights": "All rights reserved"
+# }
+DEVELOPER_INFO = {
+    "name": "Aditya chauhan",
+    "email": "Suryachauhan367367@gmail.com",
+    "url": "https://github.com/Aditya367367",
+    "linkedin": "https://www.linkedin.com/in/aditya-chauhan-1b1a95228/",
+    "rights": "All rights reserved"
+}
+
 # PDF Settings
 PDF_GENERATOR = 'weasyprint'  # or 'pdfkit'

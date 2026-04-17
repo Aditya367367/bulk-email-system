@@ -19,11 +19,31 @@
             <button type="submit" class="btn btn-primary">Search</button>
             <a href="{% url 'admin_email_jobs' %}" class="btn btn-warning">Clear</a>
         </form>
+
+        <form method="post" action="{% url 'admin_bulk_email_jobs_action' %}" id="bulk-jobs-form">
+            {% csrf_token %}
+            <div class="search-form" style="margin-top: 15px;">
+                <select name="bulk_action" required>
+                    <option value="">Bulk Action</option>
+                    <option value="delete_pdf_files">Delete Selected PDFs</option>
+                    <option value="delete_excel_files">Delete Selected Excel Files</option>
+                    <option value="delete_jobs">Delete Selected Jobs</option>
+                </select>
+                <button
+                    type="submit"
+                    class="btn btn-danger"
+                    onclick="return confirm('Apply this bulk action to the selected jobs?')"
+                >
+                    Apply
+                </button>
+            </div>
+        </form>
         
         <div class="table-responsive">
             <table class="table">
                 <thead>
                     <tr>
+                        <th><input type="checkbox" id="select-all-jobs"></th>
                         <th>Job ID</th>
                         <th>Status</th>
                         <th>Total</th>
@@ -38,6 +58,7 @@
                 <tbody>
                     {% for job in page_obj %}
                         <tr>
+                            <td><input type="checkbox" name="job_ids" value="{{ job.id }}" class="job-checkbox" form="bulk-jobs-form"></td>
                             <td>{{ job.id|truncatechars:12 }}</td>
                             <td>
                                 <span class="status-badge status-{{ job.status }}">
@@ -58,6 +79,7 @@
                             </td>
                             <td>
                                 <div class="actions">
+                                    <a href="{% url 'admin_job_pdfs' job.id %}" class="btn btn-primary">View PDFs</a>
                                     {% if job.excel_file %}
                                         <form method="post" action="{% url 'admin_delete_file' job.id %}" style="display: inline;">
                                             {% csrf_token %}
@@ -73,13 +95,13 @@
                         </tr>
                     {% empty %}
                         <tr>
-                            <td colspan="9">No email jobs found.</td>
+                            <td colspan="10">No email jobs found.</td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        
+
         {% if page_obj.has_other_pages %}
             <div class="pagination">
                 {% if page_obj.has_previous %}
@@ -99,4 +121,19 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const selectAll = document.getElementById('select-all-jobs');
+    const checkboxes = document.querySelectorAll('.job-checkbox');
+
+    if (selectAll) {
+        selectAll.addEventListener('change', function () {
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = selectAll.checked;
+            });
+        });
+    }
+});
+</script>
 {% endblock %}

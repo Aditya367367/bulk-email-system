@@ -5,32 +5,47 @@
 <title>Cinefil Introduction Letter</title>
 <link href="https://fonts.googleapis.com/css2?family=Nokora:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
+@page {
+    size: A4;
+    margin: 8mm 10mm 10mm 10mm;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     font-family: "Nokora", sans-serif;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 1.8;
+    font-size: 13px;
+    line-height: 1.45;
+    background: #fff;
 }
+
 .container{
-    width:850px;
-    margin:20px auto;
-    background:#fff;
-    padding:25px 40px;
-}
-@page {
-    size: A4;
-    margin: 20mm 18mm 25mm 18mm;
+    width: 100%;
+    max-width: 190mm;
+    margin: 0 auto;
+    background: #fff;
+    padding: 0;
+    box-sizing: border-box;
+    min-height: calc(297mm - 18mm);
+    display: flex;
+    flex-direction: column;
 }
 /* KEEP HEADER SAME */
 .header img{
-    width:100%;
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* LETTER STYLE */
 .ref{
     text-align:right;
-    margin-top:20px;
-    font-size:15px;
+    margin-top:40px;
+    font-size:13px;
 }
 
 .to{
@@ -39,27 +54,35 @@ body {
 }
 
 .subject{
-    margin:25px 0;
+    margin:12px 0 10px;
+    margin-top:20px;
     font-weight:600;
 }
 
 .content{
-    font-size:15px;
-    line-height:1.9;
+    font-size:13px;
+    line-height:1.45;
     text-align:justify;
     margin:0 auto;
-    padding:0 20px;
+    padding:0;
+    margin-top:20px;
 }
 p {
   text-align: justify;
+  margin: 20px 0;
 }
 .heading{
     font-weight:bold;
-    margin-top:25px;
+    margin-top:14px;
+}
+
+strong {
+    display: inline-block;
+    margin: 6px 0;
 }
 
 .signature{
-    margin-top:60px;
+    margin-top:24px;
 }
 
 .footer-bar{
@@ -92,11 +115,24 @@ p {
     display:block;
 }
 
+.footer {
+    margin-top: auto;
+    padding-top: 150px;
+}
+
 .footer img{
-    width:850px;
-    height:auto;
-    max-height:60px;
-    object-fit:contain;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.fill-line {
+    display: inline-block;
+    min-width: 30%;
+    padding: 0 4px 2px 4px;
+    border-bottom: 1px solid #000;
+    vertical-align: baseline;
+    line-height: 1.2;
 }
 
 
@@ -113,18 +149,18 @@ p {
 </div>
 <!-- LETTER CONTENT START -->
 
-<div style="line-height:1.9; font-size:15px;">
+<div style="line-height:1.45; font-size:13px;">
 
-<div style="font-size:15px; line-height:1.9;">
+<div class="ref" style="font-size:13px; line-height:1.45;">
 
-<p>Ref. No.: <input type="text" name="ref_no" value="{{ ref_no }}" style="width: 30%; border: none; border-bottom: 1px solid #000; background: transparent; outline: none;" placeholder=" "></p>
+<p>Ref. No.: <span class="fill-line">{{ ref_no }}</span></p>
 
 <p>
 To,<br>
-<input type="text" name="name" value="{{ name }}" style="width: 38%; border: none; border-bottom: 1px solid #000; background: transparent; outline: none;" placeholder=" "><br>
-<input type="text" name="company_name" value="{{ company_name }}" style="width: 38%; border: none; border-bottom: 1px solid #000; background: transparent; outline: none;" placeholder=" "><br>
-<input type="text" name="address_line1" value="{{ address_line1 }}" style="width: 38%; border: none; border-bottom: 1px solid #000; background: transparent; outline: none;" placeholder=" "><br>
-<input type="text" name="address_line2" value="{{ address_line2 }}" style="width: 38%; border: none; border-bottom: 1px solid #000; background: transparent; outline: none;" placeholder=" ">
+<span class="fill-line" style="min-width: 38%;">{{ name }}</span><br>
+<span class="fill-line" style="min-width: 38%;">{{ company_name }}</span><br>
+<span class="fill-line" style="min-width: 38%;">{{ address_line1 }}</span><br>
+<span class="fill-line" style="min-width: 38%;">{{ address_line2 }}</span>
 </p>
 
 </div>
@@ -169,7 +205,7 @@ stadiums, hospitals etc. and / or such similar avenues in respect to communicati
 etc. as per the published Tariff scheme on our Website.
 </p>
 
-<p style="text-align: right; margin-top: 50px;"><span style="font-weight: 600;">(next...)</span></p>
+<p style="text-align: right; margin-top: 20px;"><span style="font-weight: 600;">(next...)</span></p>
 
 </div>
 

@@ -1,0 +1,72 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Job PDFs - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-file-pdf"></i> PDFs For Excel Job</h2>
+    </div>
+    <div class="card-body">
+        <div style="margin-bottom: 20px;">
+            <p><strong>Job ID:</strong> {{ job.id }}</p>
+            <p><strong>Status:</strong> {{ job.status|title }}</p>
+            <p><strong>Created:</strong> {{ job.created_at|date:"Y-m-d H:i" }}</p>
+            <p>
+                <strong>Excel File:</strong>
+                {% if job.excel_file %}
+                    {{ job.excel_file.name|cut:"excel_files/" }}
+                {% else %}
+                    No Excel file
+                {% endif %}
+            </p>
+            <div style="margin-top: 12px;">
+                <a href="{% url 'admin_email_jobs' %}" class="btn btn-warning">Back To Jobs</a>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>PDF File</th>
+                        <th>Status</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records %}
+                        <tr>
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.email }}</td>
+                            <td>{{ record.pdf_file.name|cut:"pdfs/" }}</td>
+                            <td>
+                                <span class="status-badge status-{{ record.status }}">
+                                    {{ record.status|title }}
+                                </span>
+                            </td>
+                            <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <div class="actions">
+                                    <a href="{% url 'admin_download_pdf' record.id %}" class="btn btn-primary">Download PDF</a>
+                                    <form method="post" action="{% url 'admin_delete_pdf' record.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this PDF file?')">Delete PDF</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6">No PDFs found for this Excel job.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

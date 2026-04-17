@@ -180,13 +180,12 @@ Your Excel file must contain these exact columns:
 
 | Column | Description |
 |--------|-------------|
+| ref_no | Reference number shown on the PDF |
 | name | Recipient's full name |
 | email | Recipient's email address |
-| license_number | License number |
-| validity_from | License validity start date (YYYY-MM-DD) |
-| premises_type | Type of premises |
-| category | License category |
-| address | Full address |
+| company_name | Company or organization name |
+| address_line1 | First line of address |
+| address_line2 | Second line of address |
 
 **Important**: Maximum 100 rows per file.
 
@@ -195,8 +194,9 @@ Your Excel file must contain these exact columns:
 1. Upload an Excel file using the drag-drop interface
 2. The system validates the file and checks daily limits
 3. Click "Start Email Sending" to begin processing
-4. Monitor progress in real-time
-5. Check failed logs for any issues
+4. For each row, the system generates the PDF, attaches it to an HTML email, and sends it to the `email` value
+5. The worker waits 7 seconds between each email
+6. Monitor progress in real-time and check failed logs for any issues
 
 ## API Endpoints
 
@@ -218,6 +218,7 @@ Your Excel file must contain these exact columns:
 ### Email Sending
 
 - Gmail SMTP with App Password authentication
+- HTML email body plus PDF attachment for each recipient
 - 7-second delay between emails (anti-spam)
 - Daily limit enforcement (100 emails)
 - Automatic retry on failures
@@ -277,3 +278,11 @@ Your Excel file must contain these exact columns:
 ## License
 
 This project is for educational and internal use only.
+
+
+# author
+Name:-Aditya chauhan
+Email:- "Suryachauhan367367@gmail.com",
+Url:-"https://github.com/Aditya367367",
+Linkedin:- "https://www.linkedin.com/in/aditya-chauhan-1b1a95228/",
+    

@@ -2,6 +2,13 @@
   "name": "email-bulk-system-frontend",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Aditya chauhan",
+    "email": "Suryachauhan367367@gmail.com",
+    "url": "https://github.com/Aditya367367",
+    "linkedin": "https://www.linkedin.com/in/aditya-chauhan-1b1a95228/",
+    "rights": "All rights reserved"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

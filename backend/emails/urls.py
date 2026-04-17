@@ -2,7 +2,7 @@ from django.urls import path
 from .views import (
     UploadExcelView, StartEmailSendingView, EmailJobStatusView,
     DailyLimitView, EmailJobListView, PauseEmailSendingView,
-    ResumeEmailSendingView, TerminateEmailSendingView
+    ResumeEmailSendingView, TerminateEmailSendingView, DeveloperInfoView
 )
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('resume/<uuid:job_id>/', ResumeEmailSendingView.as_view(), name='resume-email-sending'),
     path('terminate/<uuid:job_id>/', TerminateEmailSendingView.as_view(), name='terminate-email-sending'),
     path('daily-limit/', DailyLimitView.as_view(), name='daily-limit'),
+    path('developer-info/', DeveloperInfoView.as_view(), name='developer-info'),
     path('jobs/', EmailJobListView.as_view(), name='email-job-list'),
 ]
