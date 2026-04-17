@@ -1,0 +1,102 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Email Jobs - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-tasks"></i> Email Jobs</h2>
+    </div>
+    <div class="card-body">
+        <form method="get" class="search-form">
+            <input type="text" name="search" placeholder="Search by Job ID..." value="{{ search }}">
+            <select name="status">
+                <option value="">All Status</option>
+                {% for status, label in status_choices %}
+                    <option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'admin_email_jobs' %}" class="btn btn-warning">Clear</a>
+        </form>
+        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Job ID</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                        <th>Sent</th>
+                        <th>Failed</th>
+                        <th>Pending</th>
+                        <th>Created</th>
+                        <th>Excel File</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for job in page_obj %}
+                        <tr>
+                            <td>{{ job.id|truncatechars:12 }}</td>
+                            <td>
+                                <span class="status-badge status-{{ job.status }}">
+                                    {{ job.status|title }}
+                                </span>
+                            </td>
+                            <td>{{ job.total_count }}</td>
+                            <td>{{ job.sent_count }}</td>
+                            <td>{{ job.failed_count }}</td>
+                            <td>{{ job.pending_count }}</td>
+                            <td>{{ job.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                {% if job.excel_file %}
+                                    <a href="{% url 'admin_download_file' job.id %}" class="btn btn-primary">Download</a>
+                                {% else %}
+                                    No file
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="actions">
+                                    {% if job.excel_file %}
+                                        <form method="post" action="{% url 'admin_delete_file' job.id %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-warning" onclick="return confirm('Delete only the Excel file?')">Delete File</button>
+                                        </form>
+                                    {% endif %}
+                                    <form method="post" action="{% url 'admin_delete_job' job.id %}" style="display: inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this job and all its records?')">Delete Job</button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="9">No email jobs found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+                {% endif %}
+                
+                <span class="active">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last &raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

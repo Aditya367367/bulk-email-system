@@ -1,0 +1,57 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Dashboard - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-tasks"></i></div>
+        <div class="stat-number">{{ total_jobs }}</div>
+        <div class="stat-label">Total Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+        <div class="stat-number">{{ pending_jobs }}</div>
+        <div class="stat-label">Pending Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-spinner"></i></div>
+        <div class="stat-number">{{ processing_jobs }}</div>
+        <div class="stat-label">Processing Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+        <div class="stat-number">{{ completed_jobs }}</div>
+        <div class="stat-label">Completed Jobs</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+        <div class="stat-number">{{ total_records }}</div>
+        <div class="stat-label">Total Records</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-paper-plane"></i></div>
+        <div class="stat-number">{{ today_sent.emails_sent|default:0 }}</div>
+        <div class="stat-label">Today's Emails Sent</div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-bolt"></i> Quick Actions</h2>
+    </div>
+    <div class="card-body">
+        <div class="actions">
+            <a href="{% url 'admin_email_jobs' %}" class="btn btn-primary">
+                <i class="fas fa-tasks"></i> Manage Email Jobs
+            </a>
+            <a href="{% url 'admin_email_records' %}" class="btn btn-primary">
+                <i class="fas fa-envelope"></i> Manage Email Records
+            </a>
+            <a href="{% url 'admin_daily_limits' %}" class="btn btn-primary">
+                <i class="fas fa-chart-line"></i> Manage Daily Limits
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

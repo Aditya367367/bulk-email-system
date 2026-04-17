@@ -1,0 +1,11 @@
+Django==4.2.7
+djangorestframework==3.14.0
+celery==5.3.4
+redis==5.0.1
+pandas==2.0.3
+openpyxl==3.1.2
+Pillow==10.1.0
+django-cors-headers==4.3.1
+python-dotenv==1.0.0
+weasyprint==60.2
+reportlab==4.4.10

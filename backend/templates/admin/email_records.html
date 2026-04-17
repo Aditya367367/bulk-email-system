@@ -1,0 +1,84 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Email Records - Admin Panel{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h2><i class="fas fa-envelope"></i> Email Records</h2>
+    </div>
+    <div class="card-body">
+        <form method="get" class="search-form">
+            <input type="text" name="search" placeholder="Search by name, email, or license number..." value="{{ search }}">
+            <select name="status">
+                <option value="">All Status</option>
+                {% for status, label in status_choices %}
+                    <option value="{{ status }}" {% if status_filter == status %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary">Search</button>
+            <a href="{% url 'admin_email_records' %}" class="btn btn-warning">Clear</a>
+        </form>
+        
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>License Number</th>
+                        <th>Status</th>
+                        <th>Job ID</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in page_obj %}
+                        <tr>
+                            <td>{{ record.name }}</td>
+                            <td>{{ record.email }}</td>
+                            <td>{{ record.license_number|default:"-" }}</td>
+                            <td>
+                                <span class="status-badge status-{{ record.status }}">
+                                    {{ record.status|title }}
+                                </span>
+                            </td>
+                            <td>{{ record.email_job.id|truncatechars:12 }}</td>
+                            <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                            <td>
+                                <form method="post" action="{% url 'admin_delete_record' record.id %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this email record?')">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="7">No email records found.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Previous</a>
+                {% endif %}
+                
+                <span class="active">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+                
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}{% if status_filter %}&status={{ status_filter }}{% endif %}">Last &raquo;</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
