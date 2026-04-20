@@ -36,17 +36,17 @@
                 <tbody>
                     {% for record in page_obj %}
                         <tr>
-                            <td>{{ record.name }}</td>
-                            <td>{{ record.email }}</td>
-                            <td>{{ record.license_number|default:"-" }}</td>
-                            <td>
+                            <td style="text-align: center;">{{ record.name }}</td>
+                            <td style="text-align: center;">{{ record.email }}</td>
+                            <td style="text-align: center;">{{ record.license_number|default:"-" }}</td>
+                            <td style="text-align: center;">
                                 <span class="status-badge status-{{ record.status }}">
                                     {{ record.status|title }}
                                 </span>
                             </td>
-                            <td>{{ record.email_job.id|truncatechars:12 }}</td>
-                            <td>{{ record.created_at|date:"Y-m-d H:i" }}</td>
-                            <td>
+                            <td style="text-align: center;">{{ record.email_job.id|truncatechars:12 }}</td>
+                            <td style="text-align: center;">{{ record.created_at|date:"Y-m-d H:i" }}</td>
+                            <td style="text-align: center;">
                                 <form method="post" action="{% url 'admin_delete_record' record.id %}" style="display: inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this email record?')">Delete</button>

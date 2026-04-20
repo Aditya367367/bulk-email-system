@@ -43,41 +43,41 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th><input type="checkbox" id="select-all-jobs"></th>
-                        <th>Job ID</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                        <th>Sent</th>
-                        <th>Failed</th>
-                        <th>Pending</th>
-                        <th>Created</th>
-                        <th>Excel File</th>
-                        <th>Actions</th>
+                        <th data-label="Select"><input type="checkbox" id="select-all-jobs"></th>
+                        <th data-label="Job ID">Job ID</th>
+                        <th data-label="Status">Status</th>
+                        <th data-label="Total">Total</th>
+                        <th data-label="Sent">Sent</th>
+                        <th data-label="Failed">Failed</th>
+                        <th data-label="Pending">Pending</th>
+                        <th data-label="Created">Created</th>
+                        <th data-label="Excel File">Excel File</th>
+                        <th data-label="Actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for job in page_obj %}
                         <tr>
-                            <td><input type="checkbox" name="job_ids" value="{{ job.id }}" class="job-checkbox" form="bulk-jobs-form"></td>
-                            <td>{{ job.id|truncatechars:12 }}</td>
-                            <td>
+                            <td data-label="Select" style="text-align: center;"><input type="checkbox" name="job_ids" value="{{ job.id }}" class="job-checkbox" form="bulk-jobs-form"></td>
+                            <td data-label="Job ID" style="text-align: center;">{{ job.id|truncatechars:12 }}</td>
+                            <td data-label="Status" style="text-align: center;">
                                 <span class="status-badge status-{{ job.status }}">
                                     {{ job.status|title }}
                                 </span>
                             </td>
-                            <td>{{ job.total_count }}</td>
-                            <td>{{ job.sent_count }}</td>
-                            <td>{{ job.failed_count }}</td>
-                            <td>{{ job.pending_count }}</td>
-                            <td>{{ job.created_at|date:"Y-m-d H:i" }}</td>
-                            <td>
+                            <td data-label="Total" style="text-align: center;">{{ job.total_count }}</td>
+                            <td data-label="Sent" style="text-align: center;">{{ job.sent_count }}</td>
+                            <td data-label="Failed" style="text-align: center;">{{ job.failed_count }}</td>
+                            <td data-label="Pending" style="text-align: center;">{{ job.pending_count }}</td>
+                            <td data-label="Created" style="text-align: center;">{{ job.created_at|date:"Y-m-d H:i" }}</td>
+                            <td data-label="Excel File" style="text-align: center;">
                                 {% if job.excel_file %}
                                     <a href="{% url 'admin_download_file' job.id %}" class="btn btn-primary">Download</a>
                                 {% else %}
                                     No file
                                 {% endif %}
                             </td>
-                            <td>
+                            <td data-label="Actions" style="text-align: center;">
                                 <div class="actions">
                                     <a href="{% url 'admin_job_pdfs' job.id %}" class="btn btn-primary">View PDFs</a>
                                     {% if job.excel_file %}

@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view, parser_classes
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import permissions
 from django.conf import settings
 from django.core.paginator import EmptyPage, Paginator
 from django.utils import timezone
@@ -29,6 +30,7 @@ LIMIT_HIT_WARNING = (
 
 class UploadExcelView(APIView):
     parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [permissions.IsAuthenticated]
     
     def post(self, request):
         serializer = ExcelUploadSerializer(data=request.data)
@@ -136,6 +138,7 @@ class UploadExcelView(APIView):
 
 
 class StartEmailSendingView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, job_id):
         try:
             email_job = EmailJob.objects.get(id=job_id)
@@ -186,6 +189,7 @@ class StartEmailSendingView(APIView):
 
 
 class EmailJobStatusView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, job_id):
         try:
             email_job = EmailJob.objects.get(id=job_id)
@@ -209,6 +213,7 @@ class EmailJobStatusView(APIView):
 
 
 class DailyLimitView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         today = timezone.now().date()
         daily_limit_obj, created = DailyEmailLimit.objects.get_or_create(
@@ -225,11 +230,13 @@ class DailyLimitView(APIView):
 
 
 class DeveloperInfoView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         return Response(settings.DEVELOPER_INFO, status=status.HTTP_200_OK)
 
 
 class PauseEmailSendingView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, job_id):
         try:
             email_job = EmailJob.objects.get(id=job_id)
@@ -255,6 +262,7 @@ class PauseEmailSendingView(APIView):
 
 
 class ResumeEmailSendingView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, job_id):
         try:
             email_job = EmailJob.objects.get(id=job_id)
@@ -280,6 +288,7 @@ class ResumeEmailSendingView(APIView):
 
 
 class TerminateEmailSendingView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def post(self, request, job_id):
         try:
             email_job = EmailJob.objects.get(id=job_id)
@@ -321,6 +330,7 @@ class TerminateEmailSendingView(APIView):
 
 
 class EmailJobListView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         page_number = request.GET.get('page', 1)
         page_size = request.GET.get('page_size', 10)

@@ -5,6 +5,7 @@ import StatusCards from '../components/StatusCards.jsx';
 import JobHistory from '../components/JobHistory.jsx';
 import ReadyToStartCard from '../components/ReadyToStartCard';
 import AlertBanner from '../components/AlertBanner';
+import { useAuth } from '../contexts/AuthContext';
 import {
   getDailyLimit,
   getJobStatus,
@@ -14,6 +15,7 @@ import {
 } from '../services/jobService';
 
 const DashboardPage = () => {
+  const { user, logout } = useAuth();
   const [currentJob, setCurrentJob] = useState(null);
   const [dailyLimit, setDailyLimit] = useState({ emails_sent: 0, remaining_emails: 100 });
   const [isLoading, setIsLoading] = useState(false);
@@ -111,19 +113,34 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="container mx-auto px-4 py-8">
-        <header className="mb-8 text-center">
-          <h1 className="mb-2 text-4xl font-bold text-gray-800">Bulk Email System</h1>
-          <p className="text-gray-600">Upload Excel data, review the draft job, then start responsive bulk email delivery with PDF attachments</p>
-          
+        <header className="mb-8">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-6 space-y-4 lg:space-y-0">
+            <div className="text-center lg:text-left flex-1">
+              <h1 className="mb-2 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800">Bulk Email System</h1>
+              <p className="text-sm sm:text-base text-gray-600 max-w-2xl">Upload Excel data, review draft job, then start responsive bulk email delivery with PDF attachments</p>
+            </div>
+            <div className="flex items-center space-x-3 sm:space-x-4 w-full lg:w-auto justify-between lg:justify-end">
+              <div className="text-right">
+                <p className="text-xs sm:text-sm text-gray-600">Welcome,</p>
+                <p className="text-sm sm:text-base font-semibold text-gray-800">{user?.username || 'Admin'}</p>
+              </div>
+              <button
+                onClick={logout}
+                className="bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-md text-xs sm:text-sm font-medium transition-colors whitespace-nowrap"
+              >
+                Logout
+              </button>
+            </div>
+          </div>
         </header>
 
         <AlertBanner type="error" message={error} />
         <AlertBanner type="success" message={success} />
 
-        <div className="mb-8 grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <div className="rounded-lg bg-white p-6 shadow-md">
-              <h2 className="mb-4 text-2xl font-semibold">Upload Excel File</h2>
+        <div className="mb-8 grid grid-cols-1 xl:grid-cols-3 gap-6">
+          <div className="xl:col-span-2 space-y-6">
+            <div className="rounded-lg bg-white p-4 sm:p-6 shadow-md">
+              <h2 className="mb-4 text-xl sm:text-2xl font-semibold">Upload Excel File</h2>
               <FileUpload
                 onFileUpload={handleFileUpload}
                 isLoading={isLoading}
@@ -143,7 +160,7 @@ const DashboardPage = () => {
                   <button
                     type="button"
                     disabled
-                    className="rounded-lg bg-blue-600 px-6 py-2 text-white disabled:cursor-not-allowed disabled:bg-gray-400"
+                    className="w-full sm:w-auto rounded-lg bg-blue-600 px-4 sm:px-6 py-2 text-white disabled:cursor-not-allowed disabled:bg-gray-400 text-sm sm:text-base"
                   >
                     Email Job In Progress
                   </button>
@@ -161,7 +178,7 @@ const DashboardPage = () => {
           </div>
         </div>
 
-        <div className="rounded-lg bg-white p-6 shadow-md">
+        <div className="rounded-lg bg-white p-4 sm:p-6 shadow-md">
           <JobHistory />
         </div>
       </div>

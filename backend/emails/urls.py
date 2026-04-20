@@ -4,8 +4,16 @@ from .views import (
     DailyLimitView, EmailJobListView, PauseEmailSendingView,
     ResumeEmailSendingView, TerminateEmailSendingView, DeveloperInfoView
 )
+from .auth_views import login_view, refresh_token_view, logout_view, user_profile_view
 
 urlpatterns = [
+    # Authentication endpoints
+    path('auth/login/', login_view, name='login'),
+    path('auth/refresh/', refresh_token_view, name='refresh-token'),
+    path('auth/logout/', logout_view, name='logout'),
+    path('auth/profile/', user_profile_view, name='user-profile'),
+    
+    # Email system endpoints
     path('upload/', UploadExcelView.as_view(), name='upload-excel'),
     path('start/<uuid:job_id>/', StartEmailSendingView.as_view(), name='start-email-sending'),
     path('status/<uuid:job_id>/', EmailJobStatusView.as_view(), name='email-job-status'),
