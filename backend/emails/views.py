@@ -92,6 +92,7 @@ class UploadExcelView(APIView):
                         company_name=_clean_excel_value(row, 'company_name'),
                         address_line1=_clean_excel_value(row, 'address_line1'),
                         address_line2=_clean_excel_value(row, 'address_line2'),
+                        custom_message=_clean_excel_value(row, 'custom_message'),
                         license_number=_clean_excel_value(row, 'license_number'),
                         validity_from=(
                             pd.to_datetime(row['validity_from']).date()

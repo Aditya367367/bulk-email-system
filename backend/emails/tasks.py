@@ -139,6 +139,7 @@ def send_email_with_pdf(record, pdf_path):
             'company_name': record.company_name or '',
             'address_line1': record.address_line1 or '',
             'address_line2': record.address_line2 or '',
+            'custom_message': record.custom_message or '',
         }
         html_body = render_to_string('emails/license_email.html', context)
         text_body = (
@@ -146,7 +147,8 @@ def send_email_with_pdf(record, pdf_path):
             "Please find your personalized CINEFIL PDF attached to this email.\n\n"
             f"Ref. No.: {record.ref_no or ''}\n"
             f"Company: {record.company_name or ''}\n"
-            f"Address: {record.address_line1 or ''} {record.address_line2 or ''}\n\n"
+            f"Address: {record.address_line1 or ''} {record.address_line2 or ''}\n"
+            f"{record.custom_message or ''}\n\n"
             "Best regards,\n"
             "CINEFIL Team"
         ).strip()

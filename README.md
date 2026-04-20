@@ -168,6 +168,12 @@ npm start
 
 ## Usage
 
+```bash
+redis-server --save '' --appendonly no --port 6379
+
+./venv/bin/celery -A email_system worker --loglevel=info
+```
+
 ### 1. Access the Application
 
 - Frontend: http://localhost:3000

@@ -2,46 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>License Document</title>
+  <title>CINEFIL License</title>
 </head>
-<body style="margin:0; padding:0; background:#f5f7fb; font-family:Arial, sans-serif; color:#1f2937;">
-  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f7fb; padding:24px 0;">
-    <tr>
-      <td align="center">
-        <table role="presentation" width="640" cellspacing="0" cellpadding="0" style="max-width:640px; width:100%; background:#ffffff; border-radius:12px; overflow:hidden; border:1px solid #e5e7eb;">
-          <tr>
-            <td style="background:#0f4c81; color:#ffffff; padding:24px 32px;">
-              <h1 style="margin:0; font-size:24px; line-height:1.3;">CINEFIL License Document</h1>
-              <p style="margin:8px 0 0; font-size:14px; opacity:0.9;">Personalized PDF attached for {{ name }}</p>
-            </td>
-          </tr>
-          <tr>
-            <td style="padding:28px 32px;">
-              <p style="margin:0 0 16px;">Dear {{ name }},</p>
-              <p style="margin:0 0 16px;">Please find your personalized CINEFIL PDF attached to this email.</p>
+<body style="margin:0; padding:20px; background-color:#ffffff; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color:#1a202c; line-height: 1.6;">
+  <div style="max-width: 600px; margin: 0 auto;">
 
-              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse; margin:20px 0; background:#f8fafc;">
-                <tr>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb; width:34%; font-weight:bold;">Ref. No.</td>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb;">{{ ref_no }}</td>
-                </tr>
-                <tr>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb; font-weight:bold;">Company</td>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb;">{{ company_name }}</td>
-                </tr>
-                <tr>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb; font-weight:bold;">Address</td>
-                  <td style="padding:12px 14px; border:1px solid #e5e7eb;">{{ address_line1 }}{% if address_line2 %}, {{ address_line2 }}{% endif %}</td>
-                </tr>
-              </table>
+    <div style="font-size: 16px; margin-bottom: 32px; white-space: pre-wrap;">
+      {% if custom_message %}
+        {{ custom_message|linebreaks }}
+      {% else %}
+        <!-- <p>Dear {{ name }},</p> -->
+        <p>Please find your license document attached below.</p>
+      {% endif %}
+    </div>
 
-              <p style="margin:0 0 16px;">The PDF is attached to this email. If you have any questions, please reply to this message.</p>
-              <p style="margin:0;">Best regards,<br>CINEFIL Team</p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+    <div style="padding-top: 20px; border-top: 1px solid #edf2f7; font-size: 14px; color: #718096;">
+      <p style="margin: 0;">
+        <strong>Attachment:</strong> CINEFIL_{{ ref_no }}.pdf
+      </p>
+      <p style="margin: 4px 0 0;">
+        Best regards,<br>
+        <strong>CINEFIL Team</strong>
+      </p>
+    </div>
+
+  </div>
 </body>
 </html>
