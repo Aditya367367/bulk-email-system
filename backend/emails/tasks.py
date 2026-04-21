@@ -131,7 +131,8 @@ def process_email_job(self, job_id):
 
 def send_email_with_pdf(record, pdf_path):
     try:
-        subject = 'License Certificate - Important Document'
+        # Use custom email subject from Excel file, fallback to default
+        subject = record.email_subject or 'License Certificate - Important Document'
 
         context = {
             'name': record.name or '',
@@ -139,6 +140,7 @@ def send_email_with_pdf(record, pdf_path):
             'company_name': record.company_name or '',
             'address_line1': record.address_line1 or '',
             'address_line2': record.address_line2 or '',
+            'email_subject': record.email_subject or '',
             'custom_message': record.custom_message or '',
         }
         html_body = render_to_string('emails/license_email.html', context)
@@ -153,10 +155,13 @@ def send_email_with_pdf(record, pdf_path):
             "CINEFIL Team"
         ).strip()
 
+        # Use sender email from Excel file, fallback to default if not provided
+        from_email = record.sender_email or settings.DEFAULT_FROM_EMAIL
+        
         email = EmailMultiAlternatives(
             subject=subject,
             body=text_body,
-            from_email=settings.DEFAULT_FROM_EMAIL,
+            from_email=from_email,
             to=[record.email]
         )
         email.attach_alternative(html_body, "text/html")

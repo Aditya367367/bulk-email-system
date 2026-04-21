@@ -14,6 +14,10 @@
         <!-- <p>Dear {{ name }},</p> -->
         <p>Please find your license document attached below.</p>
       {% endif %}
+      
+      {% if email_subject %}
+        <p><strong>Subject:</strong> {{ email_subject }}</p>
+      {% endif %}
     </div>
 
     <div style="padding-top: 20px; border-top: 1px solid #edf2f7; font-size: 14px; color: #718096;">

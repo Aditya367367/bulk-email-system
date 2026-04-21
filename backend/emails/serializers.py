@@ -8,7 +8,7 @@ class EmailRecordSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'email', 'license_number', 'validity_from',
             'premises_type', 'category', 'address', 'ref_no', 'company_name',
-            'address_line1', 'address_line2', 'custom_message', 'status', 
+            'address_line1', 'address_line2', 'email_subject', 'sender_email', 'custom_message', 'status', 
             'error_message', 'created_at', 'updated_at'
         ]
 

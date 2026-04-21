@@ -59,6 +59,8 @@ class EmailRecord(models.Model):
     company_name = models.CharField(max_length=255, blank=True, null=True)
     address_line1 = models.CharField(max_length=255, blank=True, null=True)
     address_line2 = models.CharField(max_length=255, blank=True, null=True)
+    email_subject = models.CharField(max_length=255, blank=True, null=True)
+    sender_email = models.EmailField(blank=True, null=True, help_text="Email address where this email came from")
     custom_message = models.TextField(blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     error_message = models.TextField(blank=True, null=True)
