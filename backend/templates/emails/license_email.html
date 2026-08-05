@@ -8,6 +8,11 @@
   <div style="max-width: 600px; margin: 0 auto;">
 
     <div style="font-size: 16px; margin-bottom: 32px; white-space: pre-wrap;">
+      {% if email_subject %}
+      <p><strong>Subject:</strong> {{ email_subject }}</p>
+      {% endif %}
+
+
       {% if custom_message %}
         {{ custom_message|linebreaks }}
       {% else %}
@@ -15,9 +20,7 @@
         <p>Please find your license document attached below.</p>
       {% endif %}
       
-      {% if email_subject %}
-        <p><strong>Subject:</strong> {{ email_subject }}</p>
-      {% endif %}
+
     </div>
 
     <div style="padding-top: 20px; border-top: 1px solid #edf2f7; font-size: 14px; color: #718096;">
